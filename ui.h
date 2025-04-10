@@ -84,4 +84,17 @@ HWND CreateInputField(HWND hwndParent, HINSTANCE hInstance, LPCSTR labelText, in
  */
 void HandleButtonClick(HWND hwnd, HWND hwndTextBox);
 
+/**
+ * @brief Calculates the total wire length required to helically wrap a wire around a core.
+ *
+ * The wire is wrapped with a given pitch along the length of a cylindrical core.
+ * This function computes the 3D helical length based on core diameter, pitch, and coil length.
+ *
+ * @param coreDiameter Diameter of the core wire (in millimeters).
+ * @param pitch Distance between turns of the helical wrap (in millimeters).
+ * @param coilLength Total straight length of the coil (in millimeters).
+ * @return Total wire length needed to complete the helical wrap (in millimeters).
+ */
+double calculateWireLength(double coreDiameter, double pitch, double coilLength);
+
 #endif // UI_H

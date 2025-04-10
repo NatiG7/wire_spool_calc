@@ -1,4 +1,6 @@
 #include <windows.h>
+#define _USE_MATH_DEFINES
+#include <math.h>
 #include <shellscalingapi.h>
 #include "ui.h" // Header containing UI function declarations
 
@@ -73,7 +75,7 @@ HWND CreateButton(HWND hwndParent, HINSTANCE hInstance, LPCSTR labelText, int x,
     return CreateWindowEx(
         0, "BUTTON", labelText,
         WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,
-        x, y, 100, 30,  // Default button width and height
+        x, y, 100, 30, // Default button width and height
         hwndParent, (HMENU)(uintptr_t)id, hInstance, NULL);
 }
 
@@ -111,7 +113,7 @@ HWND CreateTextBox(HWND hwndParent, HINSTANCE hInstance, int x, int y, int id)
     return CreateWindowEx(
         0, "EDIT", "",
         WS_BORDER | WS_VISIBLE | WS_CHILD | ES_AUTOHSCROLL,
-        x, y, 200, 25,  // Default width and height for textbox
+        x, y, 200, 25, // Default width and height for textbox
         hwndParent, (HMENU)(uintptr_t)id, hInstance, NULL);
 }
 
@@ -129,7 +131,7 @@ HWND CreateTextBox(HWND hwndParent, HINSTANCE hInstance, int x, int y, int id)
 HWND CreateInputField(HWND hwndParent, HINSTANCE hInstance, LPCSTR labelText, int x, int y, int id)
 {
     // Create label
-    CreateLabel(hwndParent, hInstance, labelText, x, y,id+1);
+    CreateLabel(hwndParent, hInstance, labelText, x, y, id + 1);
 
     // Create textbox right below the label
     return CreateTextBox(hwndParent, hInstance, x, y + 25, id); // Offset Y to place textbox below label
@@ -147,4 +149,13 @@ void HandleButtonClick(HWND hwnd, HWND hwndTextBox)
     char text[256];
     GetWindowText(hwndTextBox, text, sizeof(text));                    // Get user input
     MessageBox(hwnd, text, "You Entered", MB_OK | MB_ICONINFORMATION); // Show it
+}
+
+// Calculates the total wire length needed for a helical wrap
+double calculateWireLength(double coreDiameter, double pitch, double coilLength)
+{
+    double turns = coilLength / pitch;
+    double lengthPerTurn = sqrt(pow(M_PI * coreDiameter, 2) + pow(pitch, 2));
+    double totalLength = turns * lengthPerTurn;
+    return totalLength;
 }
